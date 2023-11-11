@@ -141,4 +141,4 @@ def download_diabetes_data_accuracy_txt():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
