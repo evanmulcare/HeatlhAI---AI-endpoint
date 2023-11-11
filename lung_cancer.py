@@ -1,7 +1,7 @@
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
 def train_lung_cancer_model():
@@ -18,8 +18,8 @@ def train_lung_cancer_model():
     # Split the data into training and test sets
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, stratify=Y, random_state=2)
 
-    # Create and train a Random Forest classifier
-    model = RandomForestClassifier(n_estimators=100, random_state=2)
+    # Create and train a Logistic Regression model
+    model = LogisticRegression(random_state=2)
     model.fit(X_train, Y_train)
     Y_pred = model.predict(X_test)
 
