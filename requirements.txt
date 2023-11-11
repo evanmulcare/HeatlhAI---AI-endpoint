@@ -1,1 +1,9 @@
-virtualenv==20.8.1
+flask
+flask-cors
+Flask-SQLAlchemy
+numpy
+pandas
+scikit-learn
+joblib
+virtualenv
+gunicorn
