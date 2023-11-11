@@ -4,13 +4,13 @@ import numpy as np
 import os
 from heart_disease import predict_heart_disease
 from lung_cancer import predict_lung_cancer
-
+from diabetes import predict_diabetes
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
 def index():
-    return "Hello, World"
+    return "HealthAI Backend"
 
 @app.route('/predict-heart-disease', methods=['POST'])
 def predict_heart():
@@ -55,10 +55,26 @@ def predict_lung():
     return jsonify({'result': result})
 
 
-@app.route('/predict-colon-disease', methods=['POST'])
-def predict_colon():
+@app.route('/predict-diabetes', methods=['POST'])
+def predict_diab():
     input_data = request.get_json()
-    return jsonify({'result': 1})
+
+    expected_keys = [
+        'Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI',
+        'DiabetesPedigreeFunction', 'Age'
+    ]
+    
+    if not all(key in input_data for key in expected_keys):
+        error_message = 'Invalid input data'
+        print("Error:", error_message)
+        return jsonify({'error': error_message})
+    
+    input_data_list = [(input_data[key]) for key in expected_keys]
+
+    result = predict_diabetes(input_data_list)
+
+    return jsonify({'result': result})
+
 
 
 @app.route('/download-heart-data-csv', methods=['GET'])
@@ -96,6 +112,26 @@ def download_lung_data_csv():
 @app.route('/download-lung-data-accuracy-txt', methods=['GET'])
 def download_lung_data_accuracy_txt():
     data_path = 'Data/lung_cancer_accuracy.txt'
+    
+    # Check if the text file exists
+    if os.path.exists(data_path):
+        return send_file(data_path, as_attachment=True)
+    else:
+        return jsonify({'error': 'Text file not found'})
+    
+@app.route('/download-diabetes-data-csv', methods=['GET'])
+def download_diabetes_data_csv():
+    data_path = 'Data/Diabetes_Detection.csv'
+    
+    # Check if the CSV file exists
+    if os.path.exists(data_path):
+        return send_file(data_path, as_attachment=True)
+    else:
+        return jsonify({'error': 'CSV file not found'})
+    
+@app.route('/download-diabetes-data-accuracy-txt', methods=['GET'])
+def download_diabetes_data_accuracy_txt():
+    data_path = 'Data/diabetes_accuracy.txt'
     
     # Check if the text file exists
     if os.path.exists(data_path):

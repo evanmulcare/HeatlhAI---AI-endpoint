@@ -63,5 +63,3 @@ def predict_heart_disease(input_data):
 
     # Return 1 if the prediction is 1 (Presence), else return 0 (Absence)
     return prediction[0]
-
-train_heart_disease_model()
